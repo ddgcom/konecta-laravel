@@ -7,7 +7,6 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
 use App\Http\Controllers\Controller;
 use App\Providers\RouteServiceProvider;
-use Illuminate\Support\Facades\Auth;
 
 class UserController extends Controller
 {
@@ -18,7 +17,7 @@ class UserController extends Controller
      */
     public function __construct()
     {
-        $this->middleware('auth');
+        $this->middleware(['auth', 'rol']);
     }
 
     /**
@@ -127,12 +126,8 @@ class UserController extends Controller
      */
     public function destroy(User $user)
     {
-        // if(Auth::user()->id == $user->id){
-        //     return redirect()->route('user.index')->with('success', 'No te puedes eliminar a ti mismo!');
-        // } else {
-            $user->delete();
+        $user->delete();
 
-            return redirect()->route('user.index')->with('success', 'User deleted!');
-        // }
+        return redirect()->route('user.index')->with('success', 'User deleted!');
     }
 }
